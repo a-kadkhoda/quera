@@ -1,6 +1,6 @@
 import { AiOutlineStar as StartIconEmpty } from "react-icons/ai";
 import { AiFillStar as StartIconFull } from "react-icons/ai";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -12,7 +12,7 @@ function Rate() {
     { id: 4, hover: false, clicked: false },
     { id: 5, hover: false, clicked: false },
   ]);
-  const [prevRate, setPrevRate] = useState(null);
+  const prevRate = useRef(...star);
 
   const updateStar = async (id) => {
     try {
@@ -58,7 +58,7 @@ function Rate() {
   };
 
   const submitRateHandler = async (id) => {
-    setPrevRate(star);
+    prevRate.current =[...star];
 
     const submitRate = star.map((item) => {
       return item.id <= id
@@ -68,7 +68,7 @@ function Rate() {
     setStar(submitRate);
     const updateRes = await updateStar(id);
     if (updateRes.status === "error") {
-      stepBackward(prevRate);
+      stepBackward(prevRate.current);
     }
   };
 
